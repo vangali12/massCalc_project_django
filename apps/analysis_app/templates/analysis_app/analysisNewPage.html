@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			function clear() {
+				$('#placeholder').empty()
+			}
+			function creator(num){
+				var newStr = '';
+				for (var i = 1; i <= num; i++) {
+					newStr += '<p>Peak #' + i + '<input type="text" name="peak' + i + '"></p>'
+				}
+				for (var j = i; j <= 15; j++) {
+					newStr += '<input type="hidden" name="peak' + j + '" value="0">'
+				}
+				$('#placeholder').append(newStr)
+			}
+			$('#peakNum').change(function() {
+				clear(); creator($('#peakNum').val())
+				return false;
+			})
+		})
+	</script>
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">MassCalc</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/dashboard">Dashboard</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/analysis/showAll">My Analysis</a></li>
+					<li><a href="/analysis/new">New Analysis</a></li>
+					<li><a href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<h1>This is the new analysis page</h1>
+		<div class="row">
+			<form action='/analysis/createAnalysis' method='post'>
+			{% csrf_token %}
+			<div class="col-md-4">
+				<p>Name of Analysis:</p>
+				<input type="text" name="name"></p>
+				<p>Date of Data Collection:</p>
+				<input type="date" name="collectionDate"></p>
+				<p>Client #:</p>
+				<input type="text" name="client"></p>
+				<p>Project Name:</p>
+				<input type="text" name="project"></p>
+				<p>Heavy Chain Sequence:</p>
+				<input type="textarea" name="hcSequence"></p>
+				<p>Light Chain Sequence:</p>
+				<input type="textarea" name="lcSequence"></p>
+			</div>
+			<div class="col-md-4">
+				<p>Number of Deconvoluted Peaks:</p>
+				<select name="numOfPeaks" id="peakNum">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+				</select>
+				<div id='placeholder'>
+				</div>
+			</div>
+			<div class="col-md-4">
+			<p>Predicted Modifications:</p>
+			<input type="hidden" name="gZero" value="0">
+			<input type="hidden" name="gZeroF" value="0">
+			<input type="hidden" name="gOneF" value="0">
+			<input type="hidden" name="gTwoF" value="0">
+			<input type="hidden" name="manFive" value="0">
+			<input type="hidden" name="manSix" value="0">
+			<input type="hidden" name="manSeven" value="0">
+			<input type="hidden" name="manEight" value="0">
+			<input type="hidden" name="manNine" value="0">
+			<input type="hidden" name="pyroQ" value="0">
+			<input type="hidden" name="pyroE" value="0">
+			<input type="hidden" name="sodiumAdduct" value="0">
+			<input type="hidden" name="waterAdduct" value="0">
+			<input type="hidden" name="lysLoss" value="0">
+			<h4>Glycans</h4>
+			<ul>
+				<li><input type="checkbox" name="gZero" value="1">G0</li>
+				<li><input type="checkbox" name="gZeroF" value="1">G0F</li>
+				<li><input type="checkbox" name="gOneF" value="1">G1F</li>
+				<li><input type="checkbox" name="gTwoF" value="1">G2F</li>
+				<li><input type="checkbox" name="manFive" value="1">Man5</li>
+				<li><input type="checkbox" name="manSix" value="1">Man6</li>
+				<li><input type="checkbox" name="manSeven" value="1">Man7</li>
+				<li><input type="checkbox" name="manEight" value="1">Man8</li>
+				<li><input type="checkbox" name="manNine" value="1" value="1">Man9</li>
+			</ul>
+			<h4>Cyclization</h4>
+			<ul>
+				<li><input type="checkbox" name="pyroQ" value="1">pyroQ</li>
+				<li><input type="checkbox" name="pyroE" value="1">pyroE</li>
+			</ul>
+			<h4>Adducts</h4>
+			<ul>
+				<li><input type="checkbox" name="sodiumAdduct" value="1">Sodium Adduct (+21)</li>
+				<li><input type="checkbox" name="waterAdduct" value="1">Water Adduct (+18)</li>
+			</ul>
+			<h4>Other</h4>
+			<ul>
+				<li><input type="checkbox" name="lysLoss" value="1">Loss of Lysine</li>
+			</ul>
+			<input type="submit" name="submit">
+			</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

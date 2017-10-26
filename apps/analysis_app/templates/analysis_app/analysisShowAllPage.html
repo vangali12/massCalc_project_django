@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">MassCalc</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/dashbaord">Dashboard</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/analysis/showAll">My Analysis</a></li>
+					<li><a href="/analysis/new">New Analysis</a></li>
+					<li><a href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<h1>This is the show all page</h1>
+		<div class="row">
+		<div class='col-md-1'></div>
+		<div class='col-md-10'>
+			<table class="table table-bordered">
+				<thead>
+					<th>Analysis Name</th>
+					<th>Client #</th>
+					<th>Project Name</th>
+					<th>Date Updated</th>
+					<th>Date Collected</th>
+				</thead>
+				{% for entry in analysis %}
+				<tr>
+					<td><a href="/analysis/results/{{ entry.id }}">{{ entry.name }}</a></td>
+					<td>{{ entry.client }}</td>
+					<td>{{ entry.project }}</td>
+					<td>{{ entry.updated_at }}</td>
+					<td>{{ entry.collectionDate }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+		<div class='col-md-1'></div>
+		</div>
+	</div>
+</body>
+</html>

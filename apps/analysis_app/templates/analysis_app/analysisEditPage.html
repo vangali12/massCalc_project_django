@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			function clear() {
+				$('#placeholder').empty()
+			}
+			function creator(num){
+				var newStr = '';
+				for (var i = 1; i <= num; i++) {
+					newStr += '<p>Peak #' + i + '<input type="text" name="peak' + i + '" value="{{ peaks.peak' + i + ' }}"></p>'
+				}
+				for (var j = i; j <= 15; j++) {
+					newStr += '<input type="hidden" name="peak' + j + '" value="0">'
+				}
+				$('#placeholder').append(newStr)
+			}
+			$('#peakNum').change(function() {
+				clear(); creator($('#peakNum').val())
+				return false;
+			})
+		})
+	</script>
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">MassCalc</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/dashbaord">Dashboard</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/analysis/showAll">My Analysis</a></li>
+					<li><a href="/analysis/new">New Analysis</a></li>
+					<li><a href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="row">
+			<form action='/analysis/createAnalysis' method='post'>
+			{% csrf_token %}
+			<div class="col-md-4">
+				<p>Name of Analysis:</p>
+				<input type="text" name="name" value="{{ analysis.name }}"></p>
+				<p>Date of Data Collection:</p>
+				<input type="date" name="collectionDate" value="{{ analysis.collectionDate }}"></p>
+				<p>Client #:</p>
+				<input type="text" name="client" value="{{ analysis.client }}"></p>
+				<p>Project Name:</p>
+				<input type="text" name="project" value="{{ analysis.project }}"></p>
+				<p>Heavy Chain Sequence:</p>
+				<input type="textarea" name="hcSequence" value="{{ analysis.hcSequence }}"></p>
+				<p>Light Chain Sequence:</p>
+				<input type="textarea" name="lcSequence" value="{{ analysis.lcSequence }}"></p>
+				<input type="hidden" name="author" value="{{ analysis.author }}">
+			</div>
+			<div class="col-md-4">
+				<p>Number of Deconvoluted Peaks:</p>
+				<select name="numOfPeaks" id="peakNum" value="{{ peaks.numOfPeaks }}">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+				</select>
+				<div id='placeholder'>
+				</div>
+			</div>
+			<div class="col-md-4">
+			<p>Predicted Modifications:</p>
+			<h4>Glycans</h4>
+			<ul>
+				<li><input type="checkbox" name="gZero" value="{{ modifications.gZero }}">G0</li>
+				<li><input type="checkbox" name="gZeroF" value="{{ modifications.gZeroF }}">G0F</li>
+				<li><input type="checkbox" name="gOneF" value="{{ modifications.gOneF }}">G1F</li>
+				<li><input type="checkbox" name="gTwoF" value="{{ modifications.gTwoF }}">G2F</li>
+				<li><input type="checkbox" name="manFive" value="{{ modifications.manFive }}">Man5</li>
+				<li><input type="checkbox" name="manSix" value="{{ modifications.manSix }}">Man6</li>
+				<li><input type="checkbox" name="manSeven" value="{{ modifications.manSeven }}">Man7</li>
+				<li><input type="checkbox" name="manEight" value="{{ modifications.manEight }}">Man8</li>
+				<li><input type="checkbox" name="manNine" value="{{ modifications.manNine }}">Man9</li>
+			</ul>
+			<h4>Cyclization</h4>
+			<ul>
+				<li><input type="checkbox" name="pryoQ">pyroQ</li>
+				<li><input type="checkbox" name="pyroE">pyroE</li>
+			</ul>
+			<h4>Adducts</h4>
+			<ul>
+				<li><input type="checkbox" name="sodiumAdduct">Sodium Adduct (+21)</li>
+				<li><input type="checkbox" name="waterAdduct">Water Adduct (+18)</li>
+			</ul>
+			<h4>Other</h4>
+			<ul>
+				<li><input type="checkbox" name="lysLoss">Loss of Lysine</li>
+			</ul>
+			<input type="submit" name="submit">
+			</div>
+			</form>
+		</div>
+
+	</div>
+</body>
+</html>
